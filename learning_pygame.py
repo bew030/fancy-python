@@ -15,10 +15,11 @@ pygame.display.set_caption('test') # naming the game window
 
 isJump = False 
 jumpCount = 10 
+realistic = True
 # main loop 
 run = True 
 while run:
-    pygame.time.delay(10) # milleseconds 
+    pygame.time.delay(15) # milleseconds 
     for event in pygame.event.get(): # get a list of all the events that happen 
         if event.type == pygame.QUIT: 
             run = False 
@@ -44,15 +45,20 @@ while run:
     '''
     if not isJump:
         if keys[pygame.K_SPACE]:
-            print('jumping!')
             isJump = True
     else:  
         if jumpCount >= -10:
-            if jumpCount < 0: 
-                y -= jumpCount
+            if realistic: 
+                difference = (jumpCount**2)/5 # more realistic parabolic motion; set a gui button in the future that gives you the option to make it more realistic or not 
+                if jumpCount < 0: 
+                    y += difference
+                else: 
+                    y -= difference
+                jumpCount -= 1 
             else: 
-                y -= jumpCount
-            jumpCount -= 1 
+                difference = jumpCount
+                y -= difference
+                jumpCount -=1
         else:
             isJump = False  
             jumpCount = 10 
